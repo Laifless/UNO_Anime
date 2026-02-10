@@ -2,38 +2,96 @@
 ------------------------
 Nome: Tavani Samuele
 ------------------------
-Anime Battle Card UNO è un videogioco per mobile che rielabora le classiche meccaniche di UNO integrandole con l'universo degli Anime. Ogni partita non è solo una sfida di carte, ma una battaglia strategica dove i personaggi leggendari possono attivare poteri "Ultimate" per ribaltare le sorti del match.
+Anime Battle UNO è un gioco di carte strategico cross-platform sviluppato in Flutter. Combina le classiche meccaniche di gioco di UNO con l'universo degli Anime, permettendo ai giocatori di sfidarsi utilizzando i loro eroi preferiti e abilità speciali (Ultimate).
 
- - Caratteristiche Principali
-Sistema di Classi Dinamico: Utilizzo di enums per gestire tipologie di carte (normal, special, wild) e poteri speciali (skip, drawTwo, wildDrawFour, changeColor).
+Il gioco supporta il Multiplayer Online in tempo reale tramite Firebase.
 
-Ultimate Abilities: Sistema di animazioni personalizzate tramite showDialog che riproducono i gridi di battaglia e le GIF iconiche dei personaggi (es. Gojo's Domain Expansion o Ichigo's Bankai).
+ Funzionalità Principali
+ 
+ Multiplayer in Tempo Reale: Sistema di Lobby e sincronizzazione della partita gestito tramite Firebase Realtime Database.
 
-Intelligenza Artificiale: Bot integrato con logica decisionale per la selezione delle carte e l'uso dei poteri speciali.
+Universi Multipli: Scegli tra diversi universi anime:
 
-Interfaccia Fluida: Realizzata con widget avanzati di Flutter come AnimatedScale per il feedback visivo e LinearGradient adattivi basati sul tema dell'eroe selezionato.
+Dragon Ball
 
-Selezione Multiverso: Database espanso che include personaggi da Bleach, Jujutsu Kaisen, One Piece, Dragon Ball, JoJo e altri.
+Naruto
 
- - Architettura Tecnica
-Il progetto segue una struttura modulare per garantire manutenibilità:
+One Piece
 
-main.dart: Punto di ingresso dell'applicazione e configurazione del tema scuro (Dark Mode).
+Bleach
 
-home_screen.dart: Gestione del flusso di navigazione e logica di selezione dell'universo e dell'eroe.
+Jujutsu Kaisen
 
-game_table_screen.dart: Il cuore del gioco. Gestisce il loop della partita, il mazzo, il turno del giocatore e l'intelligenza artificiale del bot.
+Tokyo Ghoul
 
-models.dart: Definizioni delle strutture dati per le carte e le stanze di gioco.
+ Sistema Eroi e Ultimate: Ogni eroe ha un colore tematico e una "Ultimate" (grido di battaglia) che può essere attivata durante la partita.
 
--  Come Giocare
-Scegli il tuo Eroe: Seleziona un universo e un personaggio. Ogni scelta cambierà il colore tematico della tua interfaccia.
+ Meccaniche UNO Complete: Include carte numeriche, cambio colore, +2, +4 (Wild) e Salta Turno.
 
-Preparati alla Battaglia: Crea una stanza e sfida il bot.
+ Timer di Turno: Ogni giocatore ha 15 secondi per fare la sua mossa, rendendo il gioco frenetico.
 
-Usa l'Ultimate: Durante il tuo turno, puoi gridare la tua mossa finale per caricare la vittoria (assicurati di farlo prima di finire le carte!).
+ Tecnologie Utilizzate
+Frontend: Flutter (Dart)
 
-Vinci il Match: Regole classiche, ma con lo stile dei tuoi anime preferiti.
+Backend / Database: Firebase Realtime Database
+
+Gestione Stato: setState e Stream (per l'ascolto in tempo reale di Firebase).
+
+## Struttura del progetto
+
+<img width="691" height="152" alt="image" src="https://github.com/user-attachments/assets/9f7d545a-5e96-4e54-9d14-963091ef5cf9" />
 
 
-## Prossime informazioni verranno aggiunte a breve
+
+## Come si gioca?
+
+Scegli il tuo Guerriero: Nella schermata iniziale, seleziona l'universo (es. Jujutsu Kaisen) e il tuo personaggio (es. Gojo).
+
+
+Entra nella Lobby: Inserisci un ID stanza condiviso per giocare contro un amico.
+
+
+La Partita:
+
+Lancia carte che corrispondono per Colore o Numero all'ultima carta giocata.
+
+Usa le carte speciali (+2, Stop, Cambio Colore) per ostacolare l'avversario.
+
+Se non hai carte da giocare, pescane una dal mazzo.
+
+Vince chi finisce le carte per primo!
+
+ Note Importanti sulla Sicurezza
+Nel file main.dart, l'inizializzazione di Firebase è fatta manualmente:
+
+### Nota importante: Si sta sviluppando un gioco più serio e completamente autonomo da questo!!!
+
+
+# GALLERIA IMMAGINI
+
+## Schermata Home
+
+<img width="546" height="482" alt="image" src="https://github.com/user-attachments/assets/3258fc17-0d80-4abb-87c5-4749beba89a3" />
+
+## Selezione del personaggio
+
+<img width="549" height="770" alt="image" src="https://github.com/user-attachments/assets/8579b7c9-149f-49da-a756-11e346c3cdf7" />
+
+## Attesa avversario
+
+<img width="550" height="774" alt="image" src="https://github.com/user-attachments/assets/33cda33b-6926-4405-a014-a36d937360c2" />
+
+
+## Visualizzazione della propria mano (turno avversario e turno proprio)
+
+<img width="815" height="853" alt="image" src="https://github.com/user-attachments/assets/2ca610b5-26cd-4879-8052-d33f89329445" />
+<img width="1075" height="982" alt="image" src="https://github.com/user-attachments/assets/5a01ed13-d4b6-41d5-b234-162282bcca5b" />
+
+## Vittoria/Sconfitta
+
+<img width="1405" height="848" alt="image" src="https://github.com/user-attachments/assets/32b79a73-e88e-4429-b62a-ce1d2fb17850" />
+<img width="1075" height="977" alt="image" src="https://github.com/user-attachments/assets/afd4a31a-99b8-42ab-87e8-3db8a91801af" />
+
+
+
+
