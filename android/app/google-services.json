@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "439223159038",
+    "project_id": "server-ec79f",
+    "storage_bucket": "server-ec79f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:439223159038:android:97a70eaec081396ac67daf",
+        "android_client_info": {
+          "package_name": "com.example.AnimeBattleUNO"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlIJMsIWmaMpTIVnGYvaeNXCGYyiSRKtQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

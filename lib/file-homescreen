@@ -1,0 +1,252 @@
+import 'package:flutter/material.dart';
+import 'game_table_screen.dart';
+
+// Modello per l'Eroe
+class AnimeHero {
+  final String name;
+  final String ultimateName;
+  final String gifUrl;
+  final Color themeColor;
+
+  AnimeHero({
+    required this.name, 
+    required this.ultimateName, 
+    required this.gifUrl, 
+    this.themeColor = Colors.indigoAccent
+  });
+}
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int currentStep = 0; 
+  String selectedUniverse = "Jujutsu Kaisen";
+  AnimeHero? selectedHero;
+
+  // Database completo degli eroi
+  final Map<String, List<AnimeHero>> universeHeroes = {
+    "Bleach": [
+      AnimeHero(name: "Ichigo Kurosaki", ultimateName: "BANKAI: TENSA ZANGETSU", gifUrl: "https://media.giphy.com/media/2UIZzRk13t1m/giphy.gif", themeColor: Colors.orange),
+      AnimeHero(name: "Sosuke Aizen", ultimateName: "KYOKA SUIGETSU: IPNOSI", gifUrl: "https://media.giphy.com/media/DYB4inWOjppqE/giphy.gif", themeColor: Colors.deepPurple),
+      AnimeHero(name: "Kenpachi Zaraki", ultimateName: "NOZARASHI: RILASCIO", gifUrl: "https://media.giphy.com/media/M9S0h_SAd8BSRGvT6C/giphy.gif", themeColor: Colors.red),
+    ],
+    "Jujutsu Kaisen": [
+      AnimeHero(name: "Gojo Satoru", ultimateName: "DOMAIN EXPANSION: INFINITE VOID", gifUrl: "https://media.giphy.com/media/Lq0h920mP9Kz4F9L8B/giphy.gif", themeColor: Colors.deepPurpleAccent),
+      AnimeHero(name: "Sukuna", ultimateName: "DOMAIN EXPANSION: MALEVOLENT SHRINE", gifUrl: "https://media.giphy.com/media/lszAB3hE5vwgz60A6E/giphy.gif", themeColor: Colors.redAccent),
+      AnimeHero(name: "Yuji Itadori", ultimateName: "BLACK FLASH: SERIE", gifUrl: "https://media.giphy.com/media/v4C6S5S6f6S5S/giphy.gif", themeColor: Colors.pinkAccent),
+      AnimeHero(name: "Megumi Fushiguro", ultimateName: "CHIMERA SHADOW GARDEN", gifUrl: "https://media.giphy.com/media/TdfyL9S2WvS5G/giphy.gif", themeColor: Colors.blueGrey),
+    ],
+    "One Piece": [
+      AnimeHero(name: "Luffy Gear 5", ultimateName: "BAJRANG GUN: LIBERTÀ", gifUrl: "https://media.giphy.com/media/g0JP0ga1qGfOE/giphy.gif", themeColor: Colors.white70),
+      AnimeHero(name: "Roronoa Zoro", ultimateName: "STILE A TRE SPADE: RE DELL'INFERNO", gifUrl: "https://media.giphy.com/media/4ExWdLKAn96D/giphy.gif", themeColor: Colors.greenAccent),
+      AnimeHero(name: "Shanks", ultimateName: "HAKI DEL RE CONQUISTATORE", gifUrl: "https://media.giphy.com/media/12m3O9S6q2w/giphy.gif", themeColor: Colors.red),
+    ],
+    "Dragon Ball": [
+      AnimeHero(name: "Goku UI", ultimateName: "ULTRA ISTINTO: KAMEHAMEHA", gifUrl: "https://media.giphy.com/media/GRyrlV7c8P1gC/giphy.gif", themeColor: Colors.lightBlueAccent),
+      AnimeHero(name: "Vegeta Ultra Ego", ultimateName: "FINAL FLASH: DISTRUZIONE", gifUrl: "https://media.giphy.com/media/At8TemfXnodxu/giphy.gif", themeColor: Colors.purpleAccent),
+      AnimeHero(name: "Broly", ultimateName: "GIGANTIC ROAR", gifUrl: "https://media.giphy.com/media/7VxvQXZYZeGqI/giphy.gif", themeColor: Colors.green),
+    ],
+    "JoJo": [
+      AnimeHero(name: "Jotaro Kujo", ultimateName: "STAR PLATINUM: THE WORLD", gifUrl: "https://media.giphy.com/media/Kglk07o07Y2s/giphy.gif", themeColor: Colors.blue),
+      AnimeHero(name: "Giorno Giovanna", ultimateName: "GOLD EXPERIENCE REQUIEM", gifUrl: "https://media.giphy.com/media/h79eMcg3MoBX2/giphy.gif", themeColor: Colors.yellowAccent),
+      AnimeHero(name: "DIO Brando", ultimateName: "ROADO ROLLER DA!", gifUrl: "https://media.giphy.com/media/bUvBAZsNM6ZYI/giphy.gif", themeColor: Colors.amber),
+    ],
+    "God Tier": [
+      AnimeHero(name: "Saitama", ultimateName: "SERIOUS PUNCH", gifUrl: "https://media.giphy.com/media/arbHBoiH3q20E/giphy.gif", themeColor: Colors.yellow),
+      AnimeHero(name: "Rimuru Tempest", ultimateName: "BEELZEBUTH: PREDATORE", gifUrl: "https://media.giphy.com/media/Xv9nS72L7D3yM/giphy.gif", themeColor: Colors.cyan),
+      AnimeHero(name: "Meliodas", ultimateName: "FULL COUNTER", gifUrl: "https://media.giphy.com/media/3o7TKvxnUf3ATBQwic/giphy.gif", themeColor: Colors.deepOrangeAccent),
+      AnimeHero(name: "Mob Kageyama", ultimateName: "ESPLOSIONE: 100%", gifUrl: "https://media.giphy.com/media/10906XlF2UfXvq/giphy.gif", themeColor: Colors.pink),
+    ]
+  };
+
+  void _showRoomDialog(bool isHost) {
+    if (selectedHero == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Per favore, seleziona un personaggio prima!")),
+      );
+      return;
+    }
+
+    final TextEditingController _roomController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: const Color(0xFF1B263B),
+        title: Text(isHost ? "Crea Nuova Stanza" : "Unisciti alla Stanza", 
+                   style: const TextStyle(color: Colors.white)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text("Inserisci un codice per condividere la partita", 
+                       style: TextStyle(color: Colors.white70, fontSize: 13)),
+            const SizedBox(height: 15),
+            TextField(
+              controller: _roomController,
+              keyboardType: TextInputType.number,
+              style: const TextStyle(color: Colors.white),
+              decoration: InputDecoration(
+                hintText: "Codice (es. 777)",
+                hintStyle: const TextStyle(color: Colors.white30),
+                filled: true,
+                fillColor: Colors.black26,
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("ANNULLA", style: TextStyle(color: Colors.grey)),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.cyanAccent),
+            onPressed: () {
+              String roomId = _roomController.text.trim();
+              if (roomId.isNotEmpty) {
+                Navigator.pop(context);
+                _navigateToGame(roomId, isHost);
+              }
+            },
+            child: Text(isHost ? "CREA" : "ENTRA", style: const TextStyle(color: Colors.black)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _navigateToGame(String roomId, bool isHost) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (c) => GameTableScreen(
+          roomId: roomId,
+          universe: selectedUniverse,
+          battleCry: selectedHero!.ultimateName,
+          characterGifUrl: selectedHero!.gifUrl,
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFF0D1B2A),
+      body: SafeArea(
+        child: currentStep == 0 ? _buildUniverseSelection() : _buildHeroSelection(),
+      ),
+    );
+  }
+
+  Widget _buildUniverseSelection() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text("SCEGLI IL TUO UNIVERSO", 
+            style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold, letterSpacing: 2)),
+          const SizedBox(height: 40),
+          ...universeHeroes.keys.map((u) => _universeCard(u)).toList(),
+        ],
+      ),
+    );
+  }
+
+  Widget _universeCard(String name) {
+    return GestureDetector(
+      onTap: () => setState(() { selectedUniverse = name; currentStep = 1; }),
+      child: Container(
+        width: 300,
+        margin: const EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: const Color(0xFF1B263B),
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(color: Colors.cyanAccent.withOpacity(0.5), width: 2),
+        ),
+        child: Center(
+          child: Text(name, style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeroSelection() {
+    return Column(
+      children: [
+        const SizedBox(height: 20),
+        IconButton(
+          onPressed: () => setState(() => currentStep = 0),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+        ),
+        Text("UNIVERSO: $selectedUniverse", style: const TextStyle(color: Colors.cyanAccent)),
+        const SizedBox(height: 20),
+        Expanded(
+          child: ListView.builder(
+            itemCount: universeHeroes[selectedUniverse]!.length,
+            itemBuilder: (context, index) {
+              final hero = universeHeroes[selectedUniverse]![index];
+              bool isSelected = selectedHero == hero;
+              return GestureDetector(
+                onTap: () => setState(() => selectedHero = hero),
+                child: _heroCard(hero, isSelected),
+              );
+            },
+          ),
+        ),
+        _btn("GIOCA VS IA", () => _navigateToGame("solo", true), color: Colors.blueGrey),
+        _btn("CREA STANZA", () => _showRoomDialog(true), color: Colors.indigoAccent),
+        _btn("UNISCITI A STANZA", () => _showRoomDialog(false), color: Colors.deepPurpleAccent),
+        const SizedBox(height: 20),
+      ],
+    );
+  }
+
+  Widget _heroCard(AnimeHero hero, bool isSelected) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        color: isSelected ? hero.themeColor.withOpacity(0.3) : const Color(0xFF1B263B),
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(color: isSelected ? hero.themeColor : Colors.transparent, width: 2),
+      ),
+      child: Row(
+        children: [
+          CircleAvatar(backgroundColor: hero.themeColor, child: const Icon(Icons.flash_on, color: Colors.black)),
+          const SizedBox(width: 20),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(hero.name, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+              Text(hero.ultimateName, style: TextStyle(color: hero.themeColor.withOpacity(0.7), fontSize: 11)),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _btn(String txt, VoidCallback tap, {Color color = Colors.indigo}) {
+    return Container(
+      width: 280,
+      margin: const EdgeInsets.symmetric(vertical: 5),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: color,
+          padding: const EdgeInsets.symmetric(vertical: 15),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        ),
+        onPressed: tap,
+        child: Text(txt, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+      ),
+    );
+  }
+}
