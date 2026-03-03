@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.AnimeBattleUNO"
+    namespace = "com.example.tictactoe"
     compileSdk = 34 
     ndkVersion = "25.1.8937393"
     compileSdk = flutter.compileSdkVersion
@@ -24,8 +24,8 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.AnimeBattleUNO"
-        minSdk = 21
+        applicationId = "com.example.tictactoe"
+        minSdk = flutter.minSdkVersion
         targetSdk = 34
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.

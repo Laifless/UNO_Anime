@@ -14,7 +14,7 @@ void main() async {
           appId: "1:439223159038:android:97a70eaec081396ac67daf",
           messagingSenderId: "439223159038", // Preso dal project_number
           projectId: "server-ec79f",
-          databaseURL: "https://server-ec79f-default-rtdb.firebaseio.com", // URL standard basato sull'ID
+          databaseURL: "https://server-ec79f-default-rtdb.europe-west1.firebasedatabase.app", // URL standard basato sull'ID
           storageBucket: "server-ec79f.firebasestorage.app",
         ),
       );

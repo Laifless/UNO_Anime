@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'Lobby_screen.dart'; // Collegamento alla lobby
-import 'models.dart';
+import 'game_table_screen.dart'; // Aggiunto per poter avviare la Solo Mode
 
 // Modello per l'Eroe
 class AnimeHero {
@@ -87,8 +87,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
             const SizedBox(height: 20),
             
-            if (currentStep == 1) 
-              _btn("ENTRA NELLA LOBBY", () {}, color: Colors.redAccent),
+            // MOSTRA I BOTTONI SOLO SE L'UNIVERSO È STATO SCELTO
+            if (currentStep == 1) ...[
+              _btn("ENTRA NELLA LOBBY (Multiplayer)", () {}, color: Colors.redAccent),
+              _btn("GIOCA DA SOLO (Bot)", () {}, color: Colors.orangeAccent),
+            ],
             
             if (currentStep > 0)
               TextButton(
@@ -157,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _btn(String txt, VoidCallback tap, {Color color = Colors.indigo}) {
     return Container(
-      width: 280,
+      width: double.infinity, // Adatta il bottone alla larghezza per renderlo più comodo
       margin: const EdgeInsets.symmetric(vertical: 8),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
@@ -169,11 +172,10 @@ class _HomeScreenState extends State<HomeScreen> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         ),
         onPressed: () {
-          if (txt == "ENTRA NELLA LOBBY") {
+          // GESTIONE BOTTONE MULTIPLAYER
+          if (txt == "ENTRA NELLA LOBBY (Multiplayer)") {
             if (selectedHero == null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("Scegli il tuo guerriero!")),
-              );
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Scegli il tuo guerriero!")));
               return;
             }
             Navigator.push(
@@ -183,10 +185,33 @@ class _HomeScreenState extends State<HomeScreen> {
                   roomId: "battle_room_1", 
                   username: selectedHero!.name,
                   universe: selectedUniverse,
+                  battleCry: selectedHero!.ultimateName, // <--- ECCO IL PARAMETRO MANCANTE!
                 ),
               ),
             );
-          } else {
+          } 
+          // GESTIONE BOTTONE SINGOLO (BOT)
+         else if (txt == "GIOCA DA SOLO (Bot)") {
+             if (selectedHero == null) {
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Scegli il tuo guerriero!")));
+              return;
+            }
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => GameTableScreen(
+                  roomId: "solo", 
+                  universe: selectedUniverse,
+                  battleCry: selectedHero!.ultimateName, 
+                  characterGifUrl: selectedHero!.gifUrl, 
+                  username: selectedHero!.name,
+                  playerId: "player1", // <--- PRIMA QUI C'ERA isHost: true
+                ),
+              ),
+            );
+          }
+          // GESTIONE BOTTONI STANDARD (Scelta Universo)
+          else {
             tap();
           }
         },

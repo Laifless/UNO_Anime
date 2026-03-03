@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "439223159038",
+    "firebase_url": "https://server-ec79f-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "server-ec79f",
     "storage_bucket": "server-ec79f.firebasestorage.app"
   },
@@ -10,6 +11,25 @@
         "mobilesdk_app_id": "1:439223159038:android:97a70eaec081396ac67daf",
         "android_client_info": {
           "package_name": "com.example.AnimeBattleUNO"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlIJMsIWmaMpTIVnGYvaeNXCGYyiSRKtQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:439223159038:android:106796026158fa0fc67daf",
+        "android_client_info": {
+          "package_name": "com.example.tictactoe"
         }
       },
       "oauth_client": [],
